@@ -15,12 +15,12 @@ fi
 
 if ["$DOCKER_POSTGRES_RECOVER" = "true"];
 then
-    envdir /etc/wal-e.d/pull-env wal-e backup-fetch /var/lib/postgresql/9.3/main $DOCKER_POSTGRES_RECOVER_FROM
+    envdir /etc/wal-e.d/pull-env wal-e backup-fetch /var/lib/postgresql/$VERSION/main $DOCKER_POSTGRES_RECOVER_FROM
 
     echo "standby_mode     = 'on'"                                                      >> /var/lib/postgresql/$VERSION/main/recovery.conf
     #echo "primary_conninfo = 'host=$HOST user=$USER password=$PASSWORD'"               >> /var/lib/postgresql/$VERSION/main/recovery.conf
     echo "restore_command  = 'envdir /etc/wal-e.d/env wal-e wal-fetch \"%f\" \"%p\"'"   >> /var/lib/postgresql/$VERSION/main/recovery.conf
-    echo "trigger_file     = '/var/lib/postgresql/9.3/main/trigger'"                    >> /var/lib/postgresql/$VERSION/main/recovery.conf
+    echo "trigger_file     = '/var/lib/postgresql/$VERSION/main/trigger'"                    >> /var/lib/postgresql/$VERSION/main/recovery.conf
 fi
 
 #start phusion baseimage runner (https://github.com/phusion/baseimage-docker)
