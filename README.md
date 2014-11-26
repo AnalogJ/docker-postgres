@@ -1,3 +1,8 @@
+https://developer.rackspace.com/blog/postgresql-plus-wal-e-plus-cloudfiles-equals-awesome/
+https://github.com/abevoelker/docker-postgres
+https://github.com/wal-e/wal-e
+https://gist.github.com/ruckus/2293434
+
 # Postgres Dockerfile
 
 Docker image for Postgres 9.3 + WAL-E + PL/Python and PL/V8 languages

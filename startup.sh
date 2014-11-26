@@ -20,7 +20,5 @@ if [$DOCKER_POSTGRES_RECOVER -eq "true"]; then
     echo "trigger_file     = '/var/lib/postgresql/9.3/main/trigger'"                       >> /var/lib/postgresql/9.3/main/recovery.conf
 fi
 
-
-
 #start phusion baseimage runner (https://github.com/phusion/baseimage-docker)
 /sbin/my_init

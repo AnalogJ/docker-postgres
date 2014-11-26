@@ -34,11 +34,3 @@ RUN chmod -R 755 /data/scripts/startup.sh
 
 # run periodic full backups with cron + WAL-E, via runit
 CMD ["/data/scripts/startup.sh"]
-
-# Keep Postgres log, config and storage outside of union filesystem
-VOLUME ["/var/log/postgresql", \
-        "/var/log/supervisor", \
-        "/etc/postgresql/9.3/main", \
-        "/var/lib/postgresql/9.3/main"]
-
-EXPOSE 5432
