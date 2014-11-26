@@ -23,9 +23,6 @@ ENV DOCKER_POSTGRES_RECOVER false #this can be one of the following: ["true", "f
 # the latest, or a specific date. ['LATEST', eg. '2012-03-06 16:38:00']
 ENV DOCKER_POSTGRES_RECOVER_FROM LATEST
 
-# create conf.d folder to load postgres config files.
-RUN mkdir -m 755 -p /etc/postgresql/$VERSION/main/conf.d/
-
 # copy the wal-e crontab file
 # Crontab that does a full backup daily at 2AM and deletes old backups (retaining 7 previous backups) at 3AM:
 COPY ./cron/wal-e     /etc/cron.d/wal-e

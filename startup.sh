@@ -1,6 +1,9 @@
 #!/usr/bin/env bash
 VERSION=9.3
 
+# create conf.d folder to load postgres config files.
+mkdir -m 755 -p /etc/postgresql/$VERSION/main/conf.d/
+
 if [ "$DOCKER_POSTGRES_MODE" = "master" ];
 then
     echo "wal_level = hot_standby # hot_standby is also acceptable (will log more)"     >> /etc/postgresql/$VERSION/main/conf.d/10master.conf
