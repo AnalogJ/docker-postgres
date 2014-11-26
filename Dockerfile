@@ -1,6 +1,8 @@
 FROM abevoelker/postgres
 MAINTAINER Jason Kulatunga <jason@thesparktree.com>
 
+ENV VERSION 9.3
+
 # copy over postgresql configuration files with wal-e enabled by default
 COPY ./pg_hba.conf     /etc/postgresql/$VERSION/main/
 COPY ./postgresql.conf /etc/postgresql/$VERSION/main/
@@ -22,7 +24,7 @@ ENV DOCKER_POSTGRES_RECOVER false #this can be one of the following: ["true", "f
 ENV DOCKER_POSTGRES_RECOVER_FROM LATEST
 
 # create conf.d folder to load postgres config files.
-RUN mkdir -m 755 -p /etc/postgresql/9.3/main/conf.d/
+RUN mkdir -m 755 -p /etc/postgresql/$VERSION/main/conf.d/
 
 # copy the wal-e crontab file
 # Crontab that does a full backup daily at 2AM and deletes old backups (retaining 7 previous backups) at 3AM:
