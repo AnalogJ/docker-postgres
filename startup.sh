@@ -21,12 +21,7 @@ fi
 
 if [ "$DOCKER_POSTGRES_RECOVER" = "true" ];
 then
-    #delete the data folder completely.
-    rm -rf $DATA_DIR
-    #recreate it.
-    mkdir -m 755 -p $DATA_DIR
-
-    envdir /etc/wal-e.d/pull-env wal-e backup-fetch $DATA_DIR $DOCKER_POSTGRES_RECOVER_FROM
+    envdir /etc/wal-e.d/env wal-e backup-fetch $DATA_DIR $DOCKER_POSTGRES_RECOVER_FROM
 
     echo "standby_mode     = 'on'"                                                      >> $DATA_DIR/recovery.conf
     #echo "primary_conninfo = 'host=$HOST user=$USER password=$PASSWORD'"               >> $DATA_DIR/recovery.conf

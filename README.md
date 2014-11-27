@@ -8,8 +8,6 @@ https://postgres.heroku.com/follow
 
 docker exec 372b3c2bc266 su postgres -c "envdir /etc/wal-e.d/env wal-e backup-push /var/lib/postgresql/9.3/main"
 
-
-
 # Postgres Dockerfile
 
 Docker image for Postgres 9.3 + WAL-E + PL/Python and PL/V8 languages
