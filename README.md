@@ -2,6 +2,8 @@ https://developer.rackspace.com/blog/postgresql-plus-wal-e-plus-cloudfiles-equal
 https://github.com/abevoelker/docker-postgres
 https://github.com/wal-e/wal-e
 https://gist.github.com/ruckus/2293434
+https://blog.heroku.com/archives/2013/9/26/wal_e_and_continuous_protection_with_heroku_postgres
+https://postgres.heroku.com/follow
 
 # Postgres Dockerfile
 

@@ -13,10 +13,9 @@ then
 else
     #slave mode (DEFAULT) readonly, will not actually create wal-e archives
     echo "wal_level = hot_standby # hot_standby is also acceptable (will log more)"     >> /etc/postgresql/$VERSION/main/conf.d/05slave.conf
-
 fi
 
-if ["$DOCKER_POSTGRES_RECOVER" = "true"];
+if [ "$DOCKER_POSTGRES_RECOVER" = "true" ];
 then
     envdir /etc/wal-e.d/pull-env wal-e backup-fetch /var/lib/postgresql/$VERSION/main $DOCKER_POSTGRES_RECOVER_FROM
 
