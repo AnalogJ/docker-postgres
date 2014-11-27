@@ -9,11 +9,11 @@ COPY ./postgresql.conf /etc/postgresql/$VERSION/main/
 
 # Set default environment modes
 
-# determines if the postgres server is configured as a master or a slave.
+# determines if the postgres server is configured as a leader or a follower.
 # master nodes generate the backups and the logs (wal-e is running in archive mode)
 # slave nodes can only consume logs, DEFAULT, this is so that if we forget to set the value we dont accidently clobber our backups
-# this can be one of the following: ["master", "slave"]
-ENV DOCKER_POSTGRES_MODE slave
+# this can be one of the following: ["leader", "follower"]
+ENV DOCKER_POSTGRES_MODE follower
 
 # determines if a wal-e database backup should be recovered before starting postgres.
 # this can be one of the following: ["true", "false"]

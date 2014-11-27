@@ -4,15 +4,16 @@ VERSION=9.3
 # create conf.d folder to load postgres config files.
 mkdir -m 755 -p /etc/postgresql/$VERSION/main/conf.d/
 
-if [ "$DOCKER_POSTGRES_MODE" = "master" ];
+if [ "$DOCKER_POSTGRES_MODE" = "leader" ];
 then
-    echo "wal_level = hot_standby # hot_standby is also acceptable (will log more)"     >> /etc/postgresql/$VERSION/main/conf.d/10master.conf
-    echo "archive_mode = on"                                                            >> /etc/postgresql/$VERSION/main/conf.d/10master.conf
-    echo "archive_command = 'envdir /etc/wal-e.d/env wal-e wal-push %p'"                >> /etc/postgresql/$VERSION/main/conf.d/10master.conf
-    echo "archive_timeout = 60"                                                         >> /etc/postgresql/$VERSION/main/conf.d/10master.conf
+    echo "wal_level = hot_standby # hot_standby is also acceptable (will log more)"     >> /etc/postgresql/$VERSION/main/conf.d/10leader.conf
+    echo "archive_mode = on"                                                            >> /etc/postgresql/$VERSION/main/conf.d/10leader.conf
+    echo "archive_command = 'envdir /etc/wal-e.d/env wal-e wal-push %p'"                >> /etc/postgresql/$VERSION/main/conf.d/10leader.conf
+    echo "archive_timeout = 60"                                                         >> /etc/postgresql/$VERSION/main/conf.d/10leader.conf
 else
-    #slave mode (DEFAULT) readonly, will not actually create wal-e archives
-    echo "wal_level = hot_standby # hot_standby is also acceptable (will log more)"     >> /etc/postgresql/$VERSION/main/conf.d/05slave.conf
+    #follower mode (DEFAULT) readonly, will not actually create wal-e archives
+    echo "wal_level = hot_standby # hot_standby is also acceptable (will log more)"     >> /etc/postgresql/$VERSION/main/conf.d/10follower.conf
+    echo "hot_standby = on"                                                             >> /etc/postgresql/$VERSION/main/conf.d/10follower.conf
 fi
 
 if [ "$DOCKER_POSTGRES_RECOVER" = "true" ];

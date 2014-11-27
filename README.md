@@ -5,6 +5,11 @@ https://gist.github.com/ruckus/2293434
 https://blog.heroku.com/archives/2013/9/26/wal_e_and_continuous_protection_with_heroku_postgres
 https://postgres.heroku.com/follow
 
+
+docker exec 372b3c2bc266 su postgres -c "envdir /etc/wal-e.d/env wal-e backup-push /var/lib/postgresql/9.3/main"
+
+
+
 # Postgres Dockerfile
 
 Docker image for Postgres 9.3 + WAL-E + PL/Python and PL/V8 languages
