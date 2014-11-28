@@ -4,7 +4,7 @@ https://github.com/wal-e/wal-e
 https://gist.github.com/ruckus/2293434
 https://blog.heroku.com/archives/2013/9/26/wal_e_and_continuous_protection_with_heroku_postgres
 https://postgres.heroku.com/follow
-
+https://gist.github.com/elithrar/8682235
 
 docker exec 372b3c2bc266 su postgres -c "envdir /etc/wal-e.d/env wal-e backup-push /var/lib/postgresql/9.3/main"
 
