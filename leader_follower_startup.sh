@@ -13,13 +13,13 @@ then
     archive_mode = on
     archive_command = 'envdir /etc/wal-e.d/env wal-e wal-push %p'
     archive_timeout = 60
-    EOF
+EOF
 else
     #follower mode (DEFAULT) readonly, will not actually create wal-e archives
     tee $CONFIG_DIR/conf.d/10follower.conf <<EOF
     wal_level = hot_standby # hot_standby is also acceptable (will log more)
     hot_standby = on
-    EOF
+EOF
 fi
 
 if [ "$DOCKER_POSTGRES_RECOVER" = "true" ] && [ -e /firstrun ];
@@ -33,7 +33,7 @@ then
     standby_mode     = 'on'
     restore_command  = 'envdir /etc/wal-e.d/env wal-e wal-fetch \"%f\" \"%p\"'
     trigger_file     = '/data/trigger'
-    EOF
+EOF
 fi
 
 #start phusion baseimage runner (https://github.com/phusion/baseimage-docker)
