@@ -64,9 +64,9 @@ ENV DOCKER_POSTGRES_RECOVER_FROM LATEST
 # Crontab that does a full backup daily at 2AM and deletes old backups (retaining 7 previous backups) at 3AM:
 COPY ./cron/wal-e     /etc/cron.d/wal-e
 
-# copy over startup script
-COPY leader_follower_startup.sh /scripts/leader_follower_startup.sh
-RUN chmod -R 755 /scripts/leader_follower_startup.sh
+# copy over the modified startup scripts
+ADD scripts /scripts
+RUN chmod +x /scripts/start.sh
 
 # run periodic full backups with cron + WAL-E, via runit
-CMD ["/scripts/leader_follower_startup.sh"]
+CMD ["/sbin/my_init"]
