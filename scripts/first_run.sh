@@ -64,6 +64,7 @@ post_start_action() {
   if [ "$DOCKER_POSTGRES_MODE" = "follower" ];
   then
     echo "Running as a follower, cannot run sql queries to create database/user"
+    rm /firstrun
     return
   fi
 
