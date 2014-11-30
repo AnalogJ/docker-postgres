@@ -1,4 +1,4 @@
-FROM centurylink/postgresql
+FROM centurylink/postgresql:9.3
 MAINTAINER Jason Kulatunga <jason@thesparktree.com>
 
 # Disable existing cron jobs
