@@ -27,9 +27,9 @@ pre_start_action() {
     envdir /etc/wal-e.d/env wal-e backup-fetch $DATA_DIR $DOCKER_POSTGRES_RECOVER_FROM
 
     tee $DATA_DIR/recovery.conf <<-EOF
-    standby_mode     = 'on'
-    restore_command  = 'envdir /etc/wal-e.d/env wal-e wal-fetch \"%f\" \"%p\"'
-    trigger_file     = '/data/trigger'
+standby_mode     = 'on'
+restore_command  = 'envdir /etc/wal-e.d/env wal-e wal-fetch \"%f\" \"%p\"'
+trigger_file     = '/data/trigger'
 EOF
   fi
 
@@ -45,16 +45,16 @@ EOF
   if [ "$DOCKER_POSTGRES_MODE" = "leader" ];
   then
     tee $CONFIG_DIR/conf.d/10leader.conf <<-EOF
-    wal_level = hot_standby # hot_standby is also acceptable (will log more)
-    archive_mode = on
-    archive_command = 'envdir /etc/wal-e.d/env wal-e wal-push %p'
-    archive_timeout = 60
+wal_level = hot_standby # hot_standby is also acceptable (will log more)
+archive_mode = on
+archive_command = 'envdir /etc/wal-e.d/env wal-e wal-push %p'
+archive_timeout = 60
 EOF
   else
     #follower mode (DEFAULT) readonly, will not actually create wal-e archives
     tee $CONFIG_DIR/conf.d/10follower.conf <<-EOF
-    wal_level = hot_standby # hot_standby is also acceptable (will log more)
-    hot_standby = on
+wal_level = hot_standby # hot_standby is also acceptable (will log more)
+hot_standby = on
 EOF
   fi
 
@@ -63,7 +63,8 @@ EOF
 post_start_action() {
   if [ "$DOCKER_POSTGRES_MODE" = "follower" ];
   then
-    echo "Running as a follower, cannot run sql queries to create database/user"
+    echo "Skipping - Running as a follower, cannot run sql queries to create database/user"
+    echo "Removing /firstrun file and continuing"
     rm /firstrun
     return
   fi
