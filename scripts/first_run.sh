@@ -26,7 +26,7 @@ pre_start_action() {
     #When the supervisor service starts running, the first_run script will copy the contents into the /data/ folder.
     envdir /etc/wal-e.d/env wal-e backup-fetch $DATA_DIR $DOCKER_POSTGRES_RECOVER_FROM
 
-    tee $DATA_DIR/recovery.conf <<EOF
+    tee $DATA_DIR/recovery.conf <<-EOF
     standby_mode     = 'on'
     restore_command  = 'envdir /etc/wal-e.d/env wal-e wal-fetch \"%f\" \"%p\"'
     trigger_file     = '/data/trigger'
@@ -44,7 +44,7 @@ EOF
   # create additional configuration depending on if the server is running as a leader/follower
   if [ "$DOCKER_POSTGRES_MODE" = "leader" ];
   then
-    tee $CONFIG_DIR/conf.d/10leader.conf <<EOF
+    tee $CONFIG_DIR/conf.d/10leader.conf <<-EOF
     wal_level = hot_standby # hot_standby is also acceptable (will log more)
     archive_mode = on
     archive_command = 'envdir /etc/wal-e.d/env wal-e wal-push %p'
@@ -52,7 +52,7 @@ EOF
 EOF
   else
     #follower mode (DEFAULT) readonly, will not actually create wal-e archives
-    tee $CONFIG_DIR/conf.d/10follower.conf <<EOF
+    tee $CONFIG_DIR/conf.d/10follower.conf <<-EOF
     wal_level = hot_standby # hot_standby is also acceptable (will log more)
     hot_standby = on
 EOF
