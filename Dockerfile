@@ -1,11 +1,48 @@
-FROM abevoelker/postgres
+FROM centurylink/postgresql
 MAINTAINER Jason Kulatunga <jason@thesparktree.com>
 
-ENV VERSION 9.3
+# Disable existing cron jobs
+RUN rm -rf
+  /etc/cron.daily/dpkg \
+  /etc/cron.daily/apt \
+  /etc/cron.daily/passwd \
+  /etc/cron.daily/logrotate \
+  /etc/cron.daily/upstart \
+  /etc/cron.weekly/fstrim
 
-# copy over postgresql configuration files with wal-e enabled by default
-COPY ./pg_hba.conf     /etc/postgresql/$VERSION/main/
-COPY ./postgresql.conf /etc/postgresql/$VERSION/main/
+# Install WAL-E dependencies
+RUN apt-get update && \
+    DEBIAN_FRONTEND=noninteractive \
+    apt-get install -y \
+    postgresql-server-dev-9.3 \
+    postgresql-plpython-9.3 \
+    postgresql-9.3-plv8 \
+    libxml2-dev \
+    libxslt1-dev \
+    python-dev \
+    python-pip \
+    daemontools \
+    libevent-dev \
+    lzop \
+    pv &&\
+    /etc/init.d/postgresql stop &&\
+    pip install six --upgrade &&\
+    pip install wal-e
+
+# Create directory for storing secret WAL-E environment variables
+RUN umask u=rwx,g=rx,o= &&\
+  mkdir -p /etc/wal-e.d/env &&\
+  chown -R root:postgres /etc/wal-e.d
+
+# Remove build dependencies and clean up APT and temporary files
+RUN DEBIAN_FRONTEND=noninteractive apt-get remove --purge -y wget &&\
+  apt-get clean &&\
+  rm -rf /var/lib/apt/lists/* /tmp/* /var/tmp/*
+
+# Configure the postgres.conf file
+#allow configuration to be loaded from the conf.d folder
+RUN sed -i -e"s/^#include_dir =.*$/include_dir = 'conf.d'/" /etc/postgresql/9.3/main/postgresql.conf
+
 
 # Set default environment modes
 
@@ -28,8 +65,8 @@ ENV DOCKER_POSTGRES_RECOVER_FROM LATEST
 COPY ./cron/wal-e     /etc/cron.d/wal-e
 
 # copy over startup script
-COPY startup.sh /data/scripts/startup.sh
-RUN chmod -R 755 /data/scripts/startup.sh
+COPY leader_follower_startup.sh /scripts/leader_follower_startup.sh
+RUN chmod -R 755 /scripts/leader_follower_startup.sh
 
 # run periodic full backups with cron + WAL-E, via runit
-CMD ["/data/scripts/startup.sh"]
+CMD ["/scripts/leader_follower_startup.sh"]
