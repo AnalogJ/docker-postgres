@@ -28,7 +28,7 @@ pre_start_action() {
 
     tee $DATA_DIR/recovery.conf <<-EOF
 standby_mode     = 'on'
-restore_command  = 'envdir /etc/wal-e.d/env wal-e wal-fetch \"%f\" \"%p\"'
+restore_command  = 'envdir /etc/wal-e.d/env wal-e wal-fetch "%f" "%p"'
 trigger_file     = '/data/trigger'
 EOF
     chown postgres:postgres $DATA_DIR/recovery.conf
