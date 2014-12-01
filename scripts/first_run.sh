@@ -59,8 +59,13 @@ hot_standby = on
 EOF
   fi
 
-  #make sure the config folder is owned by postgres
-  chown -R postgres:postgres $CONFIG_DIR/conf.d
+  #Ensure ownership
+  chown -R root:root         /etc/cron.{d,daily,hourly,monthly,weekly}
+  chmod -R 755               /etc/cron.{d,daily,hourly,monthly,weekly}
+  chown -R root:postgres     /etc/wal-e.d
+  chmod -R 750               /etc/wal-e.d
+  chown -R postgres:postgres /etc/postgresql/9.3/main
+  #chmod -R 700               /etc/postgresql/9.3/main
 }
 
 post_start_action() {
