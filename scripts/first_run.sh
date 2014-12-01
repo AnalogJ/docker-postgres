@@ -31,6 +31,7 @@ standby_mode     = 'on'
 restore_command  = 'envdir /etc/wal-e.d/env wal-e wal-fetch \"%f\" \"%p\"'
 trigger_file     = '/data/trigger'
 EOF
+    chown postgres:postgres $DATA_DIR/recovery.conf
   fi
 
   # Ensure postgres owns the DATA_DIR
@@ -58,6 +59,8 @@ hot_standby = on
 EOF
   fi
 
+  #make sure the config folder is owned by postgres
+  chown -R postgres:postgres $CONFIG_DIR/conf.d
 }
 
 post_start_action() {
