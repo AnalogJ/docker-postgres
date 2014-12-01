@@ -4,6 +4,9 @@ PASS=${PASS:-$(pwgen -s -1 16)}
 CONFIG_DIR=/etc/postgresql/9.3/main
 
 pre_start_action() {
+  #make sure that posrgres is stopped.
+  /etc/init.d/postgresql stop
+
   # Echo out info to later obtain by running `docker logs container_name`
   echo "POSTGRES_USER=$USER"
   echo "POSTGRES_PASS=$PASS"
@@ -41,6 +44,13 @@ EOF
 
   # create conf.d folder to load postgres config files.
   mkdir -m 755 -p $CONFIG_DIR/conf.d/
+
+  #add general settings
+tee $CONFIG_DIR/conf.d/01general.conf <<-EOF
+log_destination = 'stderr,syslog' # Can specify multiple destinations
+syslog_facility='LOCAL0'
+syslog_ident='postgres'
+EOF
 
   # create additional configuration depending on if the server is running as a leader/follower
   if [ "$DOCKER_POSTGRES_MODE" = "leader" ];
