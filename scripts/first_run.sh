@@ -7,7 +7,7 @@ pre_start_action() {
 
   # Configure the postgres.conf file
   #allow configuration to be loaded from the conf.d folder
-  RUN sed -i -e"s/^#include_dir =.*$/include_dir = 'conf.d'/" $CONFIG_DIR/postgresql.conf
+  sed -i -e"s/^#include_dir =.*$/include_dir = 'conf.d'/" $CONFIG_DIR/postgresql.conf
 
   # Echo out info to later obtain by running `docker logs container_name`
   echo "POSTGRES_USER=$USER"
