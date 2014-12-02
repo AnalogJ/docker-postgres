@@ -39,11 +39,6 @@ RUN DEBIAN_FRONTEND=noninteractive apt-get remove --purge -y wget &&\
   apt-get clean &&\
   rm -rf /var/lib/apt/lists/* /tmp/* /var/tmp/*
 
-# Configure the postgres.conf file
-#allow configuration to be loaded from the conf.d folder
-RUN sed -i -e"s/^#include_dir =.*$/include_dir = 'conf.d'/" /etc/postgresql/9.3/main/postgresql.conf
-
-
 # Set default environment modes
 
 # determines if the postgres server is configured as a leader or a follower.
