@@ -121,5 +121,8 @@ EOF
     done
   fi
 
+  #push database backup to storage.
+  su postgres -c "envdir /etc/wal-e.d/env wal-e backup-push /data"
+
   rm /firstrun
 }
