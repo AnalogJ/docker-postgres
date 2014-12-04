@@ -1,4 +1,4 @@
-#!/bin/bash
+#!/bin/bash -x
 # Starts up postgresql within the container.
 
 # Stop on error
